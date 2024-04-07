@@ -1,0 +1,62 @@
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pageLayout {
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 0.5fr 5fr 2fr 2fr 2fr 2fr;
+  grid-template-areas: "navbar" "pageFooter" "appLinks" "textForm" "advRightTopCorner" "advRightCenterCorner";
+}
+
+.navbar {
+  grid-area: navbar;
+  background-color: rgba(0, 0, 0, 0.603);
+}
+
+.pageFooter {
+  grid-area: pageFooter;
+  background-color: rgba(148, 6, 6, 0.603);
+}
+
+.appLinks {
+  grid-area: appLinks;
+  background-color: rgba(0, 0, 255, 0.205);
+}
+
+.textForm {
+  grid-area: textForm;
+  background-color: rgb(216, 216, 28);
+}
+
+.advRightTopCorner {
+  grid-area: advRightTopCorner;
+  background-color: aqua;
+}
+
+.advRightCenterCorner {
+  grid-area: advRightCenterCorner;
+  background-color: rgb(192, 130, 38);
+}
+
+@media only screen and (min-width: 768px) {
+  .pageLayout {
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr 5fr 3fr 2fr 2fr 2fr;
+    /* grid-template-rows: 10% 15% 20% 20% 20% 15%; */
+    grid-template-areas: 
+        "navbar navbar navbar navbar" 
+        "appLinks textForm textForm advRightTopCorner" 
+        "appLinks textForm textForm advRightTopCorner" 
+        "appLinks textForm textForm advRightCenterCorner" 
+        "appLinks textForm textForm advRightCenterCorner"
+        "pageFooter pageFooter pageFooter pageFooter";
+  }
+}
