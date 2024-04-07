@@ -37,6 +37,7 @@ build/
 # dependencies
 #./reactjs/*/node_modules
 node_modules/
+.secrets.json
 /.pnp
 .pnp.js
 

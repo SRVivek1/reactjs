@@ -1,5 +1,5 @@
 {
   "news": {
-    "srcUrl": "https://newsapi.org/v2/top-headlines?country=in&apiKey=API_KEY"
+    "srcUrl": "https://newsapi.org/v2/top-headlines?country=in&apiKey="
   }
 }

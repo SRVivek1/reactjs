@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import NewsItem from "./NewsItem";
 import webLinks from "../assets/webLinks.json"
+import Loading from "./Loading";
 
 export class News extends Component {
   constructor() {
@@ -8,7 +9,7 @@ export class News extends Component {
     this.state = {
       page: 1,
       articles: [],
-      loading: true,
+      loading: false,
       totalResults: 0,
       pageSize: 12,
     };
@@ -17,11 +18,11 @@ export class News extends Component {
   /** Lifecycle method runs after render */
   async componentDidMount() {
     let newsApi = this.getNewsLink(1, this.state.pageSize);
-    let newsData = await fetch(newsApi);
-    let parsedData = await newsData.json();
+    let parsedData = await this.loadNews(newsApi);
     this.setState({
       totalResults: parsedData.totalResults,
       articles: parsedData.articles,
+      loading: false,
     });
   }
 
@@ -29,36 +30,45 @@ export class News extends Component {
   handlePrevClick = async () => {
 
     let newsApi = this.getNewsLink(this.state.page - 1, this.state.pageSize);
-    let newsData = await fetch(newsApi);
-    let parsedData = await newsData.json();
+    let parsedData = await this.loadNews(newsApi);
     this.setState({
       page: this.state.page - 1,
       articles: parsedData.articles,
+      loading: false,
     });
   }
 
   /**Load new from next index */
   handleNextClick = async () => {
     let newsApi = this.getNewsLink(this.state.page + 1, this.state.pageSize);
-    let newsData = await fetch(newsApi);
-    let parsedData = await newsData.json();
+    let parsedData = await this.loadNews(newsApi);
     this.setState({
       page: this.state.page + 1,
       articles: parsedData.articles,
+      loading: false,
     });
   }
 
   /**Prepare new API link with given page size and page number */
   getNewsLink = (page, pageSize) => {
     page <= 0 ? page = 1 : page;
-    let newsApi = webLinks.news.srcUrl + '&pageSize=' + pageSize + '&page=' + page;
+    let newsApi = webLinks.news.srcUrl + this.props.secrets.news.api_key + '&pageSize=' + pageSize + '&page=' + page;
     return newsApi;
+  }
+
+  /** Load news. */
+  loadNews = async (newsApi) => {
+    this.setState({
+      loading: true,
+    });
+    let newsData = await fetch(newsApi);
+    let parsedData = await newsData.json();
+    return parsedData;
   }
 
   /**Check if there are more news items on next page */
   hasMoreNewsItems = () => {
     let maxPages = Math.ceil(this.state.totalResults / this.state.pageSize);
-    console.log('Ma pages : ' + maxPages);
     return this.state.page >= maxPages ? true : false;
   }
 
@@ -66,6 +76,10 @@ export class News extends Component {
     return (
       <div className="container my-3">
         <h3 className="text-center">NewsMoneky - Top {this.state.totalResults} headlines of today...</h3>
+        
+        {/** Show loader while loading.*/}
+        {this.state.loading && <Loading />}
+        
         <div className="row">
           {this.state.articles.map((element) => {
             const newsDescription =

@@ -3,8 +3,8 @@ import './App.css'
 
 import React, { Component } from 'react'
 import Navbar from './components/Navbar';
-import NewsItem from './components/NewsItem';
 import News from './components/News';
+import secrets from "../../.secrets.json";
 
 export default class App extends Component {
 
@@ -14,7 +14,7 @@ export default class App extends Component {
     return (
       <div>
         <Navbar />
-        <News />
+        <News secrets={secrets}/>
       </div>
     )
   }
