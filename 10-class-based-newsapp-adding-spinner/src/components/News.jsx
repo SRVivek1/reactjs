@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import NewsItem from "./NewsItem";
 import webLinks from "../assets/webLinks.json"
+import headings from "../assets/headlines2.json"
 import Loading from "./Loading";
 
 export class News extends Component {
+
+  /**set testMode to false to load live news. */
   constructor() {
     super();
     this.state = {
@@ -12,6 +15,7 @@ export class News extends Component {
       loading: false,
       totalResults: 0,
       pageSize: 12,
+      testMode: true,
     };
   }
 
@@ -61,8 +65,15 @@ export class News extends Component {
     this.setState({
       loading: true,
     });
-    let newsData = await fetch(newsApi);
-    let parsedData = await newsData.json();
+    let parsedData = "{}";
+
+    if(this.state.testMode) {
+      parsedData = headings;
+      console.log("Test mode : loading mocked news.")
+    } else {
+      let newsData = await fetch(newsApi);
+      parsedData = await newsData.json();
+    }
     return parsedData;
   }
 
@@ -84,17 +95,19 @@ export class News extends Component {
           {this.state.articles.map((element) => {
             const newsDescription =
               element.description === null || element.description.trim() === ""
-                ? "No description available."
-                : element.description.slice(0, 88) + ".....";
+                ? "No live description available for now. please follow read link to check full story."
+                : element.description.split("").length > 88 ? element.description.slice(0, 88) + "....." 
+                : element.description;
 
             const newsTitle =
               element.title === null || element.title.trim() === ""
                 ? "No title available."
-                : element.title.slice(0, 45) + ".....";
+                : element.title.split("").length > 45 ? element.title.slice(0, 45) + "....." : element.title;
 
             return (
               <div key={element.url} className="col-md-4 my-1">
                 <NewsItem
+                  fullTitle={element.title}
                   title={newsTitle}
                   description={newsDescription}
                   imageUrl={element.urlToImage}
