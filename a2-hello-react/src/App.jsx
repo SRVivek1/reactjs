@@ -34,9 +34,20 @@ export const Footer = () => (
   </footer>
 )
 
+
+/**
+ * Dynamically generate a description based on the array of strings.
+ */
+const description = ['Fundamental', 'Core', 'Advanced', 'Expert'];
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
+
 function App() {
   const [count, setCount] = useState(0)
-
+  const desc = description[getRandomInt(description.length)];
   return (
     <>
       <Header></Header>
@@ -46,7 +57,7 @@ function App() {
           count is {count}
         </button>
         <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+          {desc} concepts of Vite and React.
         </p>
       </div>
       <p className="read-the-docs">
