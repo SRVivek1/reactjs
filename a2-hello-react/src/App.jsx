@@ -20,13 +20,27 @@ function Header() {
   );
 }
 
+export const Footer = () => (
+  <footer>
+    <p>
+      Learning React and Vite? Check the{' '}
+      <a
+        href="https://react.dev"
+        target="_blank"
+        rel="noopener noreferrer">
+        documentation
+      </a>
+    </p>
+  </footer>
+)
+
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
       <Header></Header>
-      
+
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
@@ -38,6 +52,8 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+
+      <Footer />
     </>
   )
 }
